@@ -7,9 +7,19 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 :root {
-  --bg:#080B14;--surface:#0E1220;--surface2:#151929;--border:#1E2540;
-  --text:#E8EAF0;--muted:#5A6080;--accent:#4F6EF7;
-  --green:#22C993;--amber:#F5A623;--purple:#9B6FFF;--red:#FF5E5E;--blue:#4AADFF;
+  --bg:#F0F1F8;
+  --surface:#FFFFFF;
+  --surface2:#F5F6FA;
+  --border:#DDE1EE;
+  --text:#1A1A2E;
+  --muted:#7A8099;
+  --accent:#1E7A44;
+  --accent2:#2ECC71;
+  --green:#1E7A44;
+  --amber:#E07B00;
+  --purple:#7B52D4;
+  --red:#D93025;
+  --blue:#1A6B9A;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px}
@@ -17,16 +27,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 ::-webkit-scrollbar-track{background:var(--surface)}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
-.header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+.header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:linear-gradient(135deg,#1A6B3C,#2D8B55);border-bottom:1px solid #166234;position:sticky;top:0;z-index:10}
 .header-left{display:flex;align-items:center;gap:12px}
-.header-icon{width:38px;height:38px;background:linear-gradient(135deg,#4F6EF7,#9B6FFF);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.header-icon{width:38px;height:38px;background:rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
 .header h1{font-size:16px;font-weight:600;color:#fff}
-.header p{font-size:11px;color:var(--muted);margin-top:1px}
-.btn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}
-.btn:hover{opacity:0.85}
+.header p{font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px}
+.btn{display:inline-flex;align-items:center;gap:7px;background:#fff;color:#1A6B3C;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn:hover{background:#f0f0f0}
 
-.filters{display:flex;gap:10px;padding:12px 28px;flex-wrap:wrap;background:#0A0D18;border-bottom:1px solid var(--border)}
+.filters{display:flex;gap:10px;padding:12px 28px;flex-wrap:wrap;background:#0A0F1E;border-bottom:1px solid var(--border)}
 select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;min-width:130px;font-family:inherit;appearance:none}
+select:focus{outline:none;border-color:var(--accent)}
 .clear-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit}
 .record-count{margin-left:auto;font-size:12px;color:var(--muted);align-self:center}
 
@@ -34,32 +45,23 @@ select{background:var(--surface2);border:1px solid var(--border);color:var(--tex
 
 .kpi-grid{display:flex;gap:12px;flex-wrap:wrap}
 .kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden;flex:1;min-width:130px}
-.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
 .kpi-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;font-weight:500}
 .kpi-value{font-size:32px;font-weight:700;margin:8px 0 4px;line-height:1}
 .kpi-sub{font-size:11px;color:var(--muted)}
 
-.section-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px}
+.section-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
 
 .geo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
 .geo-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
 .geo-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .geo-card-header h3{font-size:13px;font-weight:600;color:#fff}
-.geo-total{font-size:11px;background:var(--surface2);color:var(--muted);padding:2px 8px;border-radius:20px}
+.geo-total{font-size:11px;background:var(--surface2);color:var(--accent);padding:2px 8px;border-radius:20px;font-weight:600}
 .bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-.bar-label{font-size:11px;color:var(--muted);width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-label{font-size:11px;color:var(--muted);width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar-track{flex:1;height:6px;background:var(--border);border-radius:3px}
 .bar-fill{height:6px;border-radius:3px}
 .bar-count{font-size:11px;color:var(--text);width:20px;text-align:right}
-
-.designer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
-.designer-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
-.designer-card h3{font-size:13px;font-weight:600;margin-bottom:8px;color:#fff}
-.d-total{font-size:26px;font-weight:700;color:var(--blue);margin-bottom:10px}
-.d-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
-.d-key{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
-.d-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
-.d-val{font-size:12px;font-weight:600;color:var(--text)}
 
 .table-container{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
 .table-wrap{overflow-x:auto}
@@ -69,22 +71,27 @@ td{padding:9px 14px;border-bottom:1px solid var(--border);white-space:nowrap;max
 tr:hover td{background:var(--surface2)}
 .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
 .badge-dot{width:5px;height:5px;border-radius:50%;display:inline-block}
-.badge-done{background:#0D2E22;color:var(--green)}
-.badge-design{background:#2E1E06;color:var(--amber)}
-.badge-progress{background:#1E1040;color:var(--purple)}
-.badge-offline{background:#2E0D0D;color:var(--red)}
+.badge-done{background:#D4EDDA;color:#1A6B3C}
+.badge-design{background:#FFF3CD;color:#E07B00}
+.badge-progress{background:#E8E0FF;color:#7B52D4}
+.badge-offline{background:#FDDCDA;color:#D93025}
+.badge-submitted{background:#D0E8F5;color:#1A6B9A}
 .badge-other{background:var(--surface2);color:var(--muted)}
 a.domain-link{color:var(--accent);text-decoration:none}
-a.domain-link:hover{text-decoration:underline}
+a.domain-link:hover{text-decoration:underline;color:var(--accent2)}
 .pagination{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-top:1px solid var(--border)}
 .pg-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:5px 14px;border-radius:7px;font-size:12px;cursor:pointer;font-family:inherit}
 .pg-btn:disabled{opacity:0.3;cursor:default}
+.pg-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
 
 .state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;gap:16px}
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.err{color:var(--red);font-size:14px}
+.err{color:#FF5E5E;font-size:14px}
 .err-sub{color:var(--muted);font-size:12px}
+
+.highlight-card{border-color:var(--accent)!important}
+.highlight-card .kpi-value{color:var(--accent)!important}
 </style>
 </head>
 <body>
@@ -124,8 +131,12 @@ const sKey = s => {
   if(v==='offline') return 'offline';
   return 'other';
 };
-const sColor = s => ({done:'#22C993',design:'#F5A623',progress:'#9B6FFF',offline:'#FF5E5E',other:'#5A6080'}[sKey(s)]);
+
+const sColor = s => ({done:'#1E7A44',design:'#E07B00',progress:'#7B52D4',offline:'#D93025',other:'#7A8099'}[sKey(s)]);
 const sBadge = s => `<span class="badge badge-${sKey(s)}"><span class="badge-dot" style="background:${sColor(s)}"></span>${s||'—'}</span>`;
+const subBadge = s => s && s.toString().trim() !== ''
+  ? `<span class="badge badge-submitted"><span class="badge-dot" style="background:#4AADFF"></span>Submitted</span>`
+  : `<span class="badge badge-other"><span class="badge-dot" style="background:#5A6580"></span>Pending</span>`;
 
 async function loadData() {
   document.getElementById('app').innerHTML = '<div class="state"><div class="spinner"></div><p style="color:var(--muted)">Fetching live data...</p></div>';
@@ -153,9 +164,9 @@ function applyFilters() {
   const g=document.getElementById('f-geo').value, s=document.getElementById('f-status').value,
         d=document.getElementById('f-designer').value, a=document.getElementById('f-angle').value;
   filtered = allData.filter(r=>(!g||r.GEO===g)&&(!s||r.STATUS===s)&&(!d||r.DESIGNER===d)&&(!a||r.ANGLE===a));
-  document.getElementById('clear-btn').style.display = (g||s||d||a)?'block':'none';
-  document.getElementById('record-count').textContent = filtered.length + ' records';
-  page = 1; render();
+  document.getElementById('clear-btn').style.display=(g||s||d||a)?'block':'none';
+  document.getElementById('record-count').textContent=filtered.length+' records';
+  page=1; render();
 }
 
 function clearFilters() {
@@ -167,54 +178,63 @@ function render() {
   const total = filtered.length;
   if(!total){document.getElementById('app').innerHTML='<div class="state"><p style="color:var(--muted)">No records match filters.</p></div>';return;}
 
-  const done = filtered.filter(r=>sKey(r.STATUS)==='done').length;
-  const inDesign = filtered.filter(r=>sKey(r.STATUS)==='design').length;
-  const inProg = filtered.filter(r=>sKey(r.STATUS)==='progress').length;
-  const offline = filtered.filter(r=>sKey(r.STATUS)==='offline').length;
-  const pct = n => Math.round(n/total*100);
+  const toBeSubmitted = filtered.filter(r=>sKey(r.STATUS)==='done' && (!r.SUBMITTED || r.SUBMITTED.toString().trim()==='')).length;
+  const toBeCoded = filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('coded')).length;
+  const inDesign = filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('design')).length;
+  const readyForContent = filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('content')).length;
 
+  // GEO map
   const geoMap={};
-  filtered.forEach(r=>{const g=r.GEO||'Unknown';if(!geoMap[g])geoMap[g]={_t:0};const st=r.STATUS||'Unknown';geoMap[g][st]=(geoMap[g][st]||0)+1;geoMap[g]._t++;});
-
-  const dMap={};
-  filtered.forEach(r=>{const d=r.DESIGNER||'Unassigned';if(!dMap[d])dMap[d]={total:0,done:0,design:0,prog:0,offline:0};dMap[d].total++;const k=sKey(r.STATUS);if(k==='done')dMap[d].done++;else if(k==='design')dMap[d].design++;else if(k==='progress')dMap[d].prog++;else if(k==='offline')dMap[d].offline++;});
+  filtered.forEach(r=>{
+    const g=r.GEO&&r.GEO.toString().trim()!==''?r.GEO:'Unknown';
+    if(!geoMap[g])geoMap[g]={_t:0};
+    const st=r.STATUS||'Unknown';
+    geoMap[g][st]=(geoMap[g][st]||0)+1;
+    geoMap[g]._t++;
+  });
 
   const keys = Object.keys(allData[0]||{});
   const start=(page-1)*PG, pageData=filtered.slice(start,start+PG), totalPages=Math.ceil(total/PG)||1;
 
   document.getElementById('app').innerHTML = `
   <div class="main">
+
+    <!-- KPIs -->
     <div class="kpi-grid">
-      ${[['Total',total,'#4AADFF','in view'],['Done',done,'#22C993',pct(done)+'%'],['In Design',inDesign,'#F5A623',pct(inDesign)+'%'],['In Progress',inProg,'#9B6FFF',pct(inProg)+'%'],['Offline',offline,'#FF5E5E',pct(offline)+'%'],['GEOs',Object.keys(geoMap).length,'#5A6080','markets']].map(([l,v,c,s])=>`
-      <div class="kpi-card" style="--c:${c}">
+      ${[
+        ['To Be Submitted', toBeSubmitted, '#C9A84C', 'done, not submitted', true],
+        ['To Be Coded',     toBeCoded,     '#4AADFF', 'awaiting dev',        false],
+        ['In Design',       inDesign,      '#9B6FFF', 'in design',           false],
+        ['Ready For Content', readyForContent, '#22C993', 'content pending',  false],
+      ].map(([l,v,c,s,hl])=>`
+      <div class="kpi-card${hl?' highlight-card':''}">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:${c};border-radius:14px 14px 0 0"></div>
-        <div class="kpi-label">${l}</div><div class="kpi-value" style="color:${c}">${v}</div><div class="kpi-sub">${s}</div>
+        <div class="kpi-label">${l}</div>
+        <div class="kpi-value" style="color:${c}">${v}</div>
+        <div class="kpi-sub">${s}</div>
       </div>`).join('')}
     </div>
 
+    <!-- GEO -->
     <div>
       <div class="section-title">By GEO</div>
       <div class="geo-grid">
         ${Object.entries(geoMap).sort((a,b)=>b[1]._t-a[1]._t).map(([geo,counts])=>{
           const t=counts._t, rows=Object.entries(counts).filter(([k])=>k!=='_t').sort((a,b)=>b[1]-a[1]);
-          return `<div class="geo-card"><div class="geo-card-header"><h3>${geo}</h3><span class="geo-total">${t}</span></div>
-            ${rows.map(([s,c])=>`<div class="bar-row"><span class="bar-label">${s}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round(c/t*100)}%;background:${sColor(s)}"></div></div><span class="bar-count">${c}</span></div>`).join('')}
+          return `<div class="geo-card">
+            <div class="geo-card-header"><h3>${geo}</h3><span class="geo-total">${t}</span></div>
+            ${rows.map(([s,c])=>`
+            <div class="bar-row">
+              <span class="bar-label">${s}</span>
+              <div class="bar-track"><div class="bar-fill" style="width:${Math.round(c/t*100)}%;background:${sColor(s)}"></div></div>
+              <span class="bar-count">${c}</span>
+            </div>`).join('')}
           </div>`;
         }).join('')}
       </div>
     </div>
 
-    <div>
-      <div class="section-title">By Designer</div>
-      <div class="designer-grid">
-        ${Object.entries(dMap).sort((a,b)=>b[1].total-a[1].total).map(([name,s])=>`
-        <div class="designer-card"><h3>${name}</h3><div class="d-total">${s.total}</div>
-          ${[['#22C993','Done',s.done],['#F5A623','In Design',s.design],['#9B6FFF','In Progress',s.prog],['#FF5E5E','Offline',s.offline]].map(([c,l,v])=>`
-          <div class="d-row"><span class="d-key"><span class="d-dot" style="background:${c}"></span>${l}</span><span class="d-val">${v||0}</span></div>`).join('')}
-        </div>`).join('')}
-      </div>
-    </div>
-
+    <!-- Table -->
     <div>
       <div class="section-title">All Records (${total})</div>
       <div class="table-container">
@@ -222,8 +242,10 @@ function render() {
           <table>
             <thead><tr>${keys.map(k=>`<th>${k}</th>`).join('')}</tr></thead>
             <tbody>
-              ${pageData.map(r=>`<tr>${keys.map(k=>{const v=r[k]||'';
+              ${pageData.map(r=>`<tr>${keys.map(k=>{
+                const v=r[k]!==undefined?r[k]:'';
                 if(k==='STATUS') return `<td>${sBadge(v)}</td>`;
+                if(k==='SUBMITTED') return `<td>${subBadge(v)}</td>`;
                 if(k==='DOMAIN') return `<td><a class="domain-link" href="https://${v}" target="_blank">${v||'—'}</a></td>`;
                 return `<td title="${v}">${v||'—'}</td>`;
               }).join('')}</tr>`).join('')}
@@ -239,6 +261,7 @@ function render() {
         </div>
       </div>
     </div>
+
   </div>`;
 }
 
