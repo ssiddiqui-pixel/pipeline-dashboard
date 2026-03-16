@@ -26,7 +26,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:var(--surface)}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-
 .header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:linear-gradient(135deg,#1A6B3C,#2D8B55);border-bottom:1px solid #166234;position:sticky;top:0;z-index:10}
 .header-left{display:flex;align-items:center;gap:12px}
 .header-icon{width:38px;height:38px;background:rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
@@ -34,38 +33,32 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .header p{font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px}
 .btn{display:inline-flex;align-items:center;gap:7px;background:#fff;color:#1A6B3C;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
 .btn:hover{background:#f0f0f0}
-
 .filters{display:flex;gap:10px;padding:12px 28px;flex-wrap:wrap;background:#0A0F1E;border-bottom:1px solid var(--border)}
 select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;min-width:130px;font-family:inherit;appearance:none}
 select:focus{outline:none;border-color:var(--accent)}
-.clear-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit}
-.record-count{margin-left:auto;font-size:12px;color:var(--muted);align-self:center}
-
-.main{padding:24px 28px;display:flex;flex-direction:column;gap:24px}
-
-.kpi-grid{display:flex;gap:12px;flex-wrap:wrap}
-.toggle-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.2s}
+.toggle-btn{background:transparent;border:1px solid #444;color:#ccc;padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.2s}
 .toggle-btn.active{background:#1E7A44;border-color:#1E7A44;color:#fff}
+.clear-btn{background:transparent;border:1px solid #444;color:#ccc;padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit}
+.record-count{margin-left:auto;font-size:12px;color:#ccc;align-self:center}
+.main{padding:24px 28px;display:flex;flex-direction:column;gap:24px}
+.kpi-grid{display:flex;gap:12px;flex-wrap:wrap}
 .kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden;flex:1;min-width:130px;cursor:pointer;transition:border-color 0.2s,box-shadow 0.2s}
 .kpi-card:hover{border-color:#1E7A44;box-shadow:0 2px 12px rgba(30,122,68,0.15)}
 .kpi-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;font-weight:500}
 .kpi-value{font-size:32px;font-weight:700;margin:8px 0 4px;line-height:1}
 .kpi-sub{font-size:11px;color:var(--muted)}
-
 .section-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
-
 .geo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
 .geo-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
 .geo-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.geo-card-header h3{font-size:13px;font-weight:600;color:#fff}
+.geo-card-header h3{font-size:13px;font-weight:600;color:var(--text)}
 .geo-total{font-size:11px;background:var(--surface2);color:var(--accent);padding:2px 8px;border-radius:20px;font-weight:600}
 .bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
 .bar-label{font-size:11px;color:var(--muted);width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar-track{flex:1;height:6px;background:var(--border);border-radius:3px}
 .bar-fill{height:6px;border-radius:3px}
 .bar-count{font-size:11px;color:var(--text);width:20px;text-align:right}
-
 .table-container{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12px}
@@ -81,20 +74,16 @@ tr:hover td{background:var(--surface2)}
 .badge-submitted{background:#D0E8F5;color:#1A6B9A}
 .badge-other{background:var(--surface2);color:var(--muted)}
 a.domain-link{color:var(--accent);text-decoration:none}
-a.domain-link:hover{text-decoration:underline;color:var(--accent2)}
+a.domain-link:hover{text-decoration:underline}
 .pagination{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-top:1px solid var(--border)}
 .pg-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:5px 14px;border-radius:7px;font-size:12px;cursor:pointer;font-family:inherit}
 .pg-btn:disabled{opacity:0.3;cursor:default}
 .pg-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-
 .state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;gap:16px}
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.err{color:#FF5E5E;font-size:14px}
+.err{color:#D93025;font-size:14px}
 .err-sub{color:var(--muted);font-size:12px}
-
-.highlight-card{border-color:var(--accent)!important}
-.highlight-card .kpi-value{color:var(--accent)!important}
 </style>
 </head>
 <body>
@@ -120,12 +109,14 @@ a.domain-link:hover{text-decoration:underline;color:var(--accent2)}
   <span class="record-count" id="record-count"></span>
 </div>
 
-<div id="app"><div class="state"><div class="spinner"></div><p style="color:var(--muted)">Loading pipeline data...</p></div></div>
+<div id="app">
+  <div class="state"><div class="spinner"></div><p style="color:var(--muted)">Loading pipeline data...</p></div>
+</div>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbz2T7otsvka2_WUUwoUdp199jHohuSIEvVMBV4yhMIETHwPgo5b0I9_mcUOneoz4emS1w/exec";
 const PG = 50;
-let allData = [], filtered = [], page = 1;
+let allData = [], filtered = [], page = 1, tbsActive = false;
 
 const sKey = s => {
   const v = (s||'').toLowerCase();
@@ -135,41 +126,13 @@ const sKey = s => {
   if(v==='offline') return 'offline';
   return 'other';
 };
-
 const sColor = s => ({done:'#1E7A44',design:'#E07B00',progress:'#7B52D4',offline:'#D93025',other:'#7A8099'}[sKey(s)]);
 const sBadge = s => `<span class="badge badge-${sKey(s)}"><span class="badge-dot" style="background:${sColor(s)}"></span>${s||'—'}</span>`;
 const subBadge = s => s && s.toString().trim() !== ''
-  ? `<span class="badge badge-submitted"><span class="badge-dot" style="background:#4AADFF"></span>Submitted</span>`
-  : `<span class="badge badge-other"><span class="badge-dot" style="background:#5A6580"></span>Pending</span>`;
+  ? `<span class="badge badge-submitted"><span class="badge-dot" style="background:#1A6B9A"></span>Submitted</span>`
+  : `<span class="badge badge-other"><span class="badge-dot" style="background:#7A8099"></span>Pending</span>`;
 
-let tbsActive = false;
-
-function toggleTBS() {
-  tbsActive = !tbsActive;
-  document.getElementById('f-tbs').classList.toggle('active', tbsActive);
-  applyFilters();
-}
-
-function filterByKPI(type) {
-  // Reset all filters first
-  ['f-geo','f-designer','f-angle'].forEach(id=>document.getElementById(id).value='');
-  tbsActive = false;
-  document.getElementById('f-tbs').classList.remove('active');
-
-  if(type==='tbs') {
-    tbsActive = true;
-    document.getElementById('f-tbs').classList.add('active');
-    document.getElementById('f-status').value = 'Done';
-  } else if(type==='coded') {
-    document.getElementById('f-status').value = '';
-  } else if(type==='design') {
-    document.getElementById('f-status').value = '';
-  } else if(type==='content') {
-    document.getElementById('f-status').value = '';
-  }
-  applyFilters();
-  setTimeout(()=>document.getElementById('records-section').scrollIntoView({behavior:'smooth'}),100);
-}
+async function loadData() {
   document.getElementById('app').innerHTML = '<div class="state"><div class="spinner"></div><p style="color:var(--muted)">Fetching live data...</p></div>';
   try {
     const res = await fetch(API_URL);
@@ -191,15 +154,34 @@ function populateFilters() {
   });
 }
 
+function toggleTBS() {
+  tbsActive = !tbsActive;
+  document.getElementById('f-tbs').classList.toggle('active', tbsActive);
+  applyFilters();
+}
+
+function filterByKPI(type) {
+  ['f-geo','f-designer','f-angle'].forEach(id=>document.getElementById(id).value='');
+  tbsActive = false;
+  document.getElementById('f-tbs').classList.remove('active');
+  const statusEl = document.getElementById('f-status');
+  if(type==='tbs') { tbsActive=true; document.getElementById('f-tbs').classList.add('active'); statusEl.value='Done'; }
+  else if(type==='coded') { statusEl.value='To Be Coded'; }
+  else if(type==='design') { statusEl.value='In Design'; }
+  else if(type==='content') { statusEl.value='Ready For Content'; }
+  applyFilters();
+  setTimeout(()=>{ const el=document.getElementById('records-section'); if(el) el.scrollIntoView({behavior:'smooth'}); },150);
+}
+
 function applyFilters() {
   const g=document.getElementById('f-geo').value, s=document.getElementById('f-status').value,
         d=document.getElementById('f-designer').value, a=document.getElementById('f-angle').value;
   filtered = allData.filter(r=>{
-    if(!(!g||r.GEO===g)) return false;
-    if(!(!d||r.DESIGNER===d)) return false;
-    if(!(!a||r.ANGLE===a)) return false;
+    if(g && r.GEO!==g) return false;
+    if(d && r.DESIGNER!==d) return false;
+    if(a && r.ANGLE!==a) return false;
     if(tbsActive) return sKey(r.STATUS)==='done' && (!r.SUBMITTED||r.SUBMITTED.toString().trim()==='');
-    if(!(!s||r.STATUS===s)) return false;
+    if(s && r.STATUS!==s) return false;
     return true;
   });
   document.getElementById('clear-btn').style.display=(g||s||d||a||tbsActive)?'block':'none';
@@ -209,21 +191,19 @@ function applyFilters() {
 
 function clearFilters() {
   ['f-geo','f-status','f-designer','f-angle'].forEach(id=>document.getElementById(id).value='');
-  tbsActive = false;
-  document.getElementById('f-tbs').classList.remove('active');
+  tbsActive=false; document.getElementById('f-tbs').classList.remove('active');
   applyFilters();
 }
 
 function render() {
-  const total = filtered.length;
+  const total=filtered.length;
   if(!total){document.getElementById('app').innerHTML='<div class="state"><p style="color:var(--muted)">No records match filters.</p></div>';return;}
 
-  const toBeSubmitted = filtered.filter(r=>sKey(r.STATUS)==='done' && (!r.SUBMITTED || r.SUBMITTED.toString().trim()==='')).length;
-  const toBeCoded = filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('coded')).length;
-  const inDesign = filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('design')).length;
-  const readyForContent = filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('content')).length;
+  const toBeSubmitted=filtered.filter(r=>sKey(r.STATUS)==='done'&&(!r.SUBMITTED||r.SUBMITTED.toString().trim()==='')).length;
+  const toBeCoded=filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('coded')).length;
+  const inDesign=filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('design')).length;
+  const readyForContent=filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('content')).length;
 
-  // GEO map
   const geoMap={};
   filtered.forEach(r=>{
     const g=r.GEO&&r.GEO.toString().trim()!==''?r.GEO:'Unknown';
@@ -233,21 +213,19 @@ function render() {
     geoMap[g]._t++;
   });
 
-  const keys = Object.keys(allData[0]||{});
+  const keys=Object.keys(allData[0]||{});
   const start=(page-1)*PG, pageData=filtered.slice(start,start+PG), totalPages=Math.ceil(total/PG)||1;
 
-  document.getElementById('app').innerHTML = `
+  document.getElementById('app').innerHTML=`
   <div class="main">
-
-    <!-- KPIs -->
     <div class="kpi-grid">
       ${[
-        ['To Be Submitted', toBeSubmitted, '#C9A84C', 'done, not submitted', true, 'tbs'],
-        ['To Be Coded',     toBeCoded,     '#4AADFF', 'awaiting dev',        false, 'coded'],
-        ['In Design',       inDesign,      '#9B6FFF', 'in design',           false, 'design'],
-        ['Ready For Content', readyForContent, '#1E7A44', 'content pending',  false, 'content'],
+        ['To Be Submitted',toBeSubmitted,'#E07B00','done, not submitted',true,'tbs'],
+        ['To Be Coded',toBeCoded,'#1A6B9A','awaiting dev',false,'coded'],
+        ['In Design',inDesign,'#7B52D4','in design',false,'design'],
+        ['Ready For Content',readyForContent,'#1E7A44','content pending',false,'content'],
       ].map(([l,v,c,s,hl,type])=>`
-      <div class="kpi-card${hl?' highlight-card':''}" onclick="filterByKPI('${type}')">
+      <div class="kpi-card" onclick="filterByKPI('${type}')" style="${hl?'border-color:'+c+';':''}" >
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:${c};border-radius:14px 14px 0 0"></div>
         <div class="kpi-label">${l}</div>
         <div class="kpi-value" style="color:${c}">${v}</div>
@@ -255,16 +233,14 @@ function render() {
       </div>`).join('')}
     </div>
 
-    <!-- GEO -->
     <div>
       <div class="section-title">By GEO</div>
       <div class="geo-grid">
         ${Object.entries(geoMap).sort((a,b)=>b[1]._t-a[1]._t).map(([geo,counts])=>{
-          const t=counts._t, rows=Object.entries(counts).filter(([k])=>k!=='_t').sort((a,b)=>b[1]-a[1]);
+          const t=counts._t,rows=Object.entries(counts).filter(([k])=>k!=='_t').sort((a,b)=>b[1]-a[1]);
           return `<div class="geo-card">
             <div class="geo-card-header"><h3>${geo}</h3><span class="geo-total">${t}</span></div>
-            ${rows.map(([s,c])=>`
-            <div class="bar-row">
+            ${rows.map(([s,c])=>`<div class="bar-row">
               <span class="bar-label">${s}</span>
               <div class="bar-track"><div class="bar-fill" style="width:${Math.round(c/t*100)}%;background:${sColor(s)}"></div></div>
               <span class="bar-count">${c}</span>
@@ -274,8 +250,8 @@ function render() {
       </div>
     </div>
 
-    <!-- Table -->
     <div id="records-section">
+      <div class="section-title">All Records (${total})</div>
       <div class="table-container">
         <div class="table-wrap">
           <table>
@@ -300,7 +276,6 @@ function render() {
         </div>
       </div>
     </div>
-
   </div>`;
 }
 
