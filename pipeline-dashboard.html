@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pipeline Dashboard</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
 :root {
   --bg:#F0F1F8;
   --surface:#FFFFFF;
@@ -22,7 +22,7 @@
   --blue:#1A6B9A;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px}
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:var(--surface)}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
@@ -44,7 +44,10 @@ select:focus{outline:none;border-color:var(--accent)}
 .main{padding:24px 28px;display:flex;flex-direction:column;gap:24px}
 
 .kpi-grid{display:flex;gap:12px;flex-wrap:wrap}
-.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden;flex:1;min-width:130px}
+.toggle-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.2s}
+.toggle-btn.active{background:#1E7A44;border-color:#1E7A44;color:#fff}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden;flex:1;min-width:130px;cursor:pointer;transition:border-color 0.2s,box-shadow 0.2s}
+.kpi-card:hover{border-color:#1E7A44;box-shadow:0 2px 12px rgba(30,122,68,0.15)}
 .kpi-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;font-weight:500}
 .kpi-value{font-size:32px;font-weight:700;margin:8px 0 4px;line-height:1}
 .kpi-sub{font-size:11px;color:var(--muted)}
@@ -112,6 +115,7 @@ a.domain-link:hover{text-decoration:underline;color:var(--accent2)}
   <select id="f-status" onchange="applyFilters()"><option value="">All Statuses</option></select>
   <select id="f-designer" onchange="applyFilters()"><option value="">All Designers</option></select>
   <select id="f-angle" onchange="applyFilters()"><option value="">All Angles</option></select>
+  <button class="toggle-btn" id="f-tbs" onclick="toggleTBS()">To Be Submitted</button>
   <button class="clear-btn" id="clear-btn" onclick="clearFilters()" style="display:none">✕ Clear</button>
   <span class="record-count" id="record-count"></span>
 </div>
@@ -138,7 +142,34 @@ const subBadge = s => s && s.toString().trim() !== ''
   ? `<span class="badge badge-submitted"><span class="badge-dot" style="background:#4AADFF"></span>Submitted</span>`
   : `<span class="badge badge-other"><span class="badge-dot" style="background:#5A6580"></span>Pending</span>`;
 
-async function loadData() {
+let tbsActive = false;
+
+function toggleTBS() {
+  tbsActive = !tbsActive;
+  document.getElementById('f-tbs').classList.toggle('active', tbsActive);
+  applyFilters();
+}
+
+function filterByKPI(type) {
+  // Reset all filters first
+  ['f-geo','f-designer','f-angle'].forEach(id=>document.getElementById(id).value='');
+  tbsActive = false;
+  document.getElementById('f-tbs').classList.remove('active');
+
+  if(type==='tbs') {
+    tbsActive = true;
+    document.getElementById('f-tbs').classList.add('active');
+    document.getElementById('f-status').value = 'Done';
+  } else if(type==='coded') {
+    document.getElementById('f-status').value = '';
+  } else if(type==='design') {
+    document.getElementById('f-status').value = '';
+  } else if(type==='content') {
+    document.getElementById('f-status').value = '';
+  }
+  applyFilters();
+  setTimeout(()=>document.getElementById('records-section').scrollIntoView({behavior:'smooth'}),100);
+}
   document.getElementById('app').innerHTML = '<div class="state"><div class="spinner"></div><p style="color:var(--muted)">Fetching live data...</p></div>';
   try {
     const res = await fetch(API_URL);
@@ -163,14 +194,23 @@ function populateFilters() {
 function applyFilters() {
   const g=document.getElementById('f-geo').value, s=document.getElementById('f-status').value,
         d=document.getElementById('f-designer').value, a=document.getElementById('f-angle').value;
-  filtered = allData.filter(r=>(!g||r.GEO===g)&&(!s||r.STATUS===s)&&(!d||r.DESIGNER===d)&&(!a||r.ANGLE===a));
-  document.getElementById('clear-btn').style.display=(g||s||d||a)?'block':'none';
+  filtered = allData.filter(r=>{
+    if(!(!g||r.GEO===g)) return false;
+    if(!(!d||r.DESIGNER===d)) return false;
+    if(!(!a||r.ANGLE===a)) return false;
+    if(tbsActive) return sKey(r.STATUS)==='done' && (!r.SUBMITTED||r.SUBMITTED.toString().trim()==='');
+    if(!(!s||r.STATUS===s)) return false;
+    return true;
+  });
+  document.getElementById('clear-btn').style.display=(g||s||d||a||tbsActive)?'block':'none';
   document.getElementById('record-count').textContent=filtered.length+' records';
   page=1; render();
 }
 
 function clearFilters() {
   ['f-geo','f-status','f-designer','f-angle'].forEach(id=>document.getElementById(id).value='');
+  tbsActive = false;
+  document.getElementById('f-tbs').classList.remove('active');
   applyFilters();
 }
 
@@ -202,12 +242,12 @@ function render() {
     <!-- KPIs -->
     <div class="kpi-grid">
       ${[
-        ['To Be Submitted', toBeSubmitted, '#C9A84C', 'done, not submitted', true],
-        ['To Be Coded',     toBeCoded,     '#4AADFF', 'awaiting dev',        false],
-        ['In Design',       inDesign,      '#9B6FFF', 'in design',           false],
-        ['Ready For Content', readyForContent, '#22C993', 'content pending',  false],
-      ].map(([l,v,c,s,hl])=>`
-      <div class="kpi-card${hl?' highlight-card':''}">
+        ['To Be Submitted', toBeSubmitted, '#C9A84C', 'done, not submitted', true, 'tbs'],
+        ['To Be Coded',     toBeCoded,     '#4AADFF', 'awaiting dev',        false, 'coded'],
+        ['In Design',       inDesign,      '#9B6FFF', 'in design',           false, 'design'],
+        ['Ready For Content', readyForContent, '#1E7A44', 'content pending',  false, 'content'],
+      ].map(([l,v,c,s,hl,type])=>`
+      <div class="kpi-card${hl?' highlight-card':''}" onclick="filterByKPI('${type}')">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:${c};border-radius:14px 14px 0 0"></div>
         <div class="kpi-label">${l}</div>
         <div class="kpi-value" style="color:${c}">${v}</div>
@@ -235,8 +275,7 @@ function render() {
     </div>
 
     <!-- Table -->
-    <div>
-      <div class="section-title">All Records (${total})</div>
+    <div id="records-section">
       <div class="table-container">
         <div class="table-wrap">
           <table>
