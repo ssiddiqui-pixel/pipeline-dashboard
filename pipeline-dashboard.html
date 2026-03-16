@@ -33,12 +33,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .header p{font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px}
 .btn{display:inline-flex;align-items:center;gap:7px;background:#fff;color:#1A6B3C;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
 .btn:hover{background:#f0f0f0}
-.filters{display:flex;gap:10px;padding:12px 28px;flex-wrap:wrap;background:#0A0F1E;border-bottom:1px solid var(--border)}
+.filters{display:flex;gap:10px;padding:12px 28px;flex-wrap:wrap;background:#0A0F1E;border-bottom:1px solid var(--border);align-items:center}
 select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;min-width:130px;font-family:inherit;appearance:none}
 select:focus{outline:none;border-color:var(--accent)}
-.toggle-btn{background:transparent;border:1px solid #444;color:#ccc;padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.2s}
+.toggle-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.2s}
 .toggle-btn.active{background:#1E7A44;border-color:#1E7A44;color:#fff}
-.clear-btn{background:transparent;border:1px solid #444;color:#ccc;padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit}
+.toggle-btn:hover:not(.active){border-color:#1E7A44;color:#1E7A44}
+.clear-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit}
+.clear-btn:hover{border-color:#D93025;color:#D93025}
 .record-count{margin-left:auto;font-size:12px;color:#ccc;align-self:center}
 .main{padding:24px 28px;display:flex;flex-direction:column;gap:24px}
 .kpi-grid{display:flex;gap:12px;flex-wrap:wrap}
@@ -205,7 +207,6 @@ function clearFilters() {
   applyFilters();
 }
 
-// KPIs always calculated from full allData regardless of filters
 function getKPIs() {
   return {
     toBeSubmitted: allData.filter(r=>sKey(r.STATUS)==='done' && (!r.SUBMITTED||r.SUBMITTED.toString().trim()==='')).length,
