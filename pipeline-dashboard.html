@@ -27,7 +27,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 ::-webkit-scrollbar-track{background:var(--surface)}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 .header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:linear-gradient(135deg,#1A6B3C,#2D8B55);border-bottom:1px solid #166234;position:sticky;top:0;z-index:10}
-.header-left{display:flex;align-items:center;gap:12px}
+.header-left{display:flex;align-items:center;gap:12px;cursor:pointer}
+.header-left:hover h1{text-decoration:underline;text-underline-offset:3px}
 .header-icon{width:38px;height:38px;background:rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
 .header h1{font-size:16px;font-weight:600;color:#fff}
 .header p{font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px}
@@ -51,16 +52,6 @@ select:focus{outline:none;border-color:var(--accent)}
 .kpi-sub{font-size:11px;color:var(--muted)}
 .section-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
-.geo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
-.geo-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
-.geo-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.geo-card-header h3{font-size:13px;font-weight:600;color:var(--text)}
-.geo-total{font-size:11px;background:var(--surface2);color:var(--accent);padding:2px 8px;border-radius:20px;font-weight:600}
-.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-.bar-label{font-size:11px;color:var(--muted);width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bar-track{flex:1;height:6px;background:var(--border);border-radius:3px}
-.bar-fill{height:6px;border-radius:3px}
-.bar-count{font-size:11px;color:var(--text);width:20px;text-align:right}
 .table-container{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12px}
@@ -91,7 +82,7 @@ a.domain-link:hover{text-decoration:underline}
 <body>
 
 <div class="header">
-  <div class="header-left">
+  <div class="header-left" onclick="goHome()">
     <div class="header-icon">📊</div>
     <div>
       <h1>Pipeline Dashboard</h1>
@@ -143,6 +134,11 @@ const formatDate = v => {
   if(s.includes('T')) return s.split('T')[0];
   return s;
 };
+
+function goHome() {
+  clearFilters();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
 
 async function loadData() {
   document.getElementById('app').innerHTML = '<div class="state"><div class="spinner"></div><p style="color:var(--muted)">Fetching live data...</p></div>';
@@ -222,15 +218,6 @@ function render() {
 
   const {toBeSubmitted,toBeCoded,inDesign,readyForContent} = getKPIs();
 
-  const geoMap={};
-  filtered.forEach(r=>{
-    const g=r.GEO&&r.GEO.toString().trim()!==''?r.GEO:'Unknown';
-    if(!geoMap[g])geoMap[g]={_t:0};
-    const st=r.STATUS||'Unknown';
-    geoMap[g][st]=(geoMap[g][st]||0)+1;
-    geoMap[g]._t++;
-  });
-
   const keys=Object.keys(allData[0]||{}).filter(k=>!HIDDEN_COLS.includes(k));
   const start=(page-1)*PG, pageData=filtered.slice(start,start+PG), totalPages=Math.ceil(total/PG)||1;
 
@@ -249,23 +236,6 @@ function render() {
         <div class="kpi-value" style="color:${c}">${v}</div>
         <div class="kpi-sub">${s}</div>
       </div>`).join('')}
-    </div>
-
-    <div>
-      <div class="section-title">By GEO</div>
-      <div class="geo-grid">
-        ${Object.entries(geoMap).sort((a,b)=>b[1]._t-a[1]._t).map(([geo,counts])=>{
-          const t=counts._t,rows=Object.entries(counts).filter(([k])=>k!=='_t').sort((a,b)=>b[1]-a[1]);
-          return `<div class="geo-card">
-            <div class="geo-card-header"><h3>${geo}</h3><span class="geo-total">${t}</span></div>
-            ${rows.map(([s,c])=>`<div class="bar-row">
-              <span class="bar-label">${s}</span>
-              <div class="bar-track"><div class="bar-fill" style="width:${Math.round(c/t*100)}%;background:${sColor(s)}"></div></div>
-              <span class="bar-count">${c}</span>
-            </div>`).join('')}
-          </div>`;
-        }).join('')}
-      </div>
     </div>
 
     <div id="records-section">
