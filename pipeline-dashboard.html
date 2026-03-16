@@ -116,6 +116,8 @@ a.domain-link:hover{text-decoration:underline}
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbz2T7otsvka2_WUUwoUdp199jHohuSIEvVMBV4yhMIETHwPgo5b0I9_mcUOneoz4emS1w/exec";
 const PG = 50;
+const HIDDEN_COLS = ['CREDENTIALS'];
+
 let allData = [], filtered = [], page = 1, tbsActive = false;
 
 const sKey = s => {
@@ -126,11 +128,19 @@ const sKey = s => {
   if(v==='offline') return 'offline';
   return 'other';
 };
+
 const sColor = s => ({done:'#1E7A44',design:'#E07B00',progress:'#7B52D4',offline:'#D93025',other:'#7A8099'}[sKey(s)]);
 const sBadge = s => `<span class="badge badge-${sKey(s)}"><span class="badge-dot" style="background:${sColor(s)}"></span>${s||'—'}</span>`;
 const subBadge = s => s && s.toString().trim() !== ''
   ? `<span class="badge badge-submitted"><span class="badge-dot" style="background:#1A6B9A"></span>Submitted</span>`
   : `<span class="badge badge-other"><span class="badge-dot" style="background:#7A8099"></span>Pending</span>`;
+
+const formatDate = v => {
+  if(!v || v.toString().trim() === '') return '—';
+  const s = v.toString();
+  if(s.includes('T')) return s.split('T')[0];
+  return s;
+};
 
 async function loadData() {
   document.getElementById('app').innerHTML = '<div class="state"><div class="spinner"></div><p style="color:var(--muted)">Fetching live data...</p></div>';
@@ -195,14 +205,21 @@ function clearFilters() {
   applyFilters();
 }
 
+// KPIs always calculated from full allData regardless of filters
+function getKPIs() {
+  return {
+    toBeSubmitted: allData.filter(r=>sKey(r.STATUS)==='done' && (!r.SUBMITTED||r.SUBMITTED.toString().trim()==='')).length,
+    toBeCoded: allData.filter(r=>(r.STATUS||'').toLowerCase()==='to be coded').length,
+    inDesign: allData.filter(r=>(r.STATUS||'').toLowerCase()==='in design').length,
+    readyForContent: allData.filter(r=>(r.STATUS||'').toLowerCase()==='ready for content').length,
+  };
+}
+
 function render() {
   const total=filtered.length;
   if(!total){document.getElementById('app').innerHTML='<div class="state"><p style="color:var(--muted)">No records match filters.</p></div>';return;}
 
-  const toBeSubmitted=filtered.filter(r=>sKey(r.STATUS)==='done'&&(!r.SUBMITTED||r.SUBMITTED.toString().trim()==='')).length;
-  const toBeCoded=filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('coded')).length;
-  const inDesign=filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('design')).length;
-  const readyForContent=filtered.filter(r=>(r.STATUS||'').toLowerCase().includes('content')).length;
+  const {toBeSubmitted,toBeCoded,inDesign,readyForContent} = getKPIs();
 
   const geoMap={};
   filtered.forEach(r=>{
@@ -213,7 +230,7 @@ function render() {
     geoMap[g]._t++;
   });
 
-  const keys=Object.keys(allData[0]||{});
+  const keys=Object.keys(allData[0]||{}).filter(k=>!HIDDEN_COLS.includes(k));
   const start=(page-1)*PG, pageData=filtered.slice(start,start+PG), totalPages=Math.ceil(total/PG)||1;
 
   document.getElementById('app').innerHTML=`
@@ -225,7 +242,7 @@ function render() {
         ['In Design',inDesign,'#7B52D4','in design',false,'design'],
         ['Ready For Content',readyForContent,'#1E7A44','content pending',false,'content'],
       ].map(([l,v,c,s,hl,type])=>`
-      <div class="kpi-card" onclick="filterByKPI('${type}')" style="${hl?'border-color:'+c+';':''}" >
+      <div class="kpi-card" onclick="filterByKPI('${type}')" style="${hl?'border-color:'+c+';':''}">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:${c};border-radius:14px 14px 0 0"></div>
         <div class="kpi-label">${l}</div>
         <div class="kpi-value" style="color:${c}">${v}</div>
@@ -262,6 +279,7 @@ function render() {
                 if(k==='STATUS') return `<td>${sBadge(v)}</td>`;
                 if(k==='SUBMITTED') return `<td>${subBadge(v)}</td>`;
                 if(k==='DOMAIN') return `<td><a class="domain-link" href="https://${v}" target="_blank">${v||'—'}</a></td>`;
+                if(k==='DEPLOYED DATE') return `<td>${formatDate(v)}</td>`;
                 return `<td title="${v}">${v||'—'}</td>`;
               }).join('')}</tr>`).join('')}
             </tbody>
